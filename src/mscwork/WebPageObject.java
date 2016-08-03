@@ -1,5 +1,6 @@
 package mscwork;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -21,7 +22,9 @@ public class WebPageObject {
 	}
 	
 	public List<WebElement> getAllButtons(){
-		return driver.findElements(By.cssSelector("input"));
+		List <WebElement> list = new ArrayList<WebElement>();
+		list.addAll(driver.findElements(By.xpath("//*")));
+		return list;
 	}
 	
 	public void close(){
