@@ -2,6 +2,7 @@ package mscwork;
 
 import java.util.List;
 
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 import mscwork.elementsAndScores.PasswordField;
@@ -18,8 +19,9 @@ public class MainProgram {
 		}
 	}
 	
-	public static void main(String[] args){
-		WebPageObject page = new WebPageObject("https:\\www.facebook.com\\en");
+	
+	private void login(String url, String username, String password){
+		WebPageObject page = new WebPageObject(url);
 		
 		List<PasswordField> passwords = AlgoritamWithoutMachineLearning.getPasswordFields(page);
 		AlgoritamWithoutMachineLearning.sortPasswordList(passwords);
@@ -31,14 +33,10 @@ public class MainProgram {
 		AlgoritamWithoutMachineLearning.sortSubmitButtonList(submitButtons);
 		
 		
-		usernames.get(0).getField().sendKeys("username");
-		passwords.get(0).getField().sendKeys("password");
+		usernames.get(0).getField().sendKeys(username);
+		passwords.get(0).getField().sendKeys(password);
 		submitButtons.get(0).getField().click();
 		
-		/*for (PasswordField pass: passwords)
-			System.out.println(pass.toString());*/
-		/*for (UserNameField username: AlgoritamWithoutMachineLearning.getUsernameFields(page))
-			System.out.println(username.toString());*/
 		page.close();
 	}
 }

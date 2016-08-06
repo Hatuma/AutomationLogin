@@ -23,7 +23,9 @@ public class WebPageObject {
 	
 	public List<WebElement> getAllButtons(){
 		List <WebElement> list = new ArrayList<WebElement>();
-		list.addAll(driver.findElements(By.xpath("//*")));
+		list.addAll(getAllInputField());
+		list.addAll(driver.findElements(By.xpath("//button")));
+		list.addAll(driver.findElements(By.xpath("//*[@type='submit']")));
 		return list;
 	}
 	

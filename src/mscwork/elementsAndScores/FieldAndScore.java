@@ -28,5 +28,8 @@ public class FieldAndScore {
 		super();
 	}
 	
+	public void incScore(){
+		score++;
+	}
 	
 }
