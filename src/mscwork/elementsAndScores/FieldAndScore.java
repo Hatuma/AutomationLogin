@@ -1,8 +1,20 @@
 package mscwork.elementsAndScores;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.WebElement;
 
+import attributeScore.AttributeWordAndScoreMultiplier;
+
 public class FieldAndScore {
+	
+	public static List<String> attributes = Arrays.asList("id", "class", "name", "text", "value", "type");
+	public static List<String> keyWords;
+	
+	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> multipliers;
+	
 
 	private WebElement field;
 	private int score;
@@ -30,6 +42,9 @@ public class FieldAndScore {
 	
 	public void incScore(){
 		score++;
+	}
+	public void incScore(int i) {
+		score += i;
 	}
 	
 }
