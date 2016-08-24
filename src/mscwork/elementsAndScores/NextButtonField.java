@@ -9,27 +9,26 @@ import org.openqa.selenium.WebElement;
 
 import attributeScore.AttributeWordAndScoreMultiplier;
 
-public class SubmitButtonField extends FieldAndScore{
+public class NextButtonField extends FieldAndScore{
 	
 	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> multipliers;
 	public static List<String> keyWords;
 
-	public SubmitButtonField(WebElement field, int score) {
+	public NextButtonField(WebElement field, int score) {
 		super(field, score);
 	}
 	
-	public SubmitButtonField() {
+	public NextButtonField() {
 		super();
 	}
 	
 	@Override
 	public String toString() {
-		return "SubmitButtonField [field=" + getField() + ", score=" + getScore() + ", location=" + getField().getLocation() + ", text=" + getField().getAttribute("value") + "]";
+		return "NextButtonField [field=" + getField() + ", score=" + getScore() + ", location=" + getField().getLocation() + ", value=" + getField().getAttribute("value") + ", text=" + getField().getText() + "]";
 	}
 
 	static{
-		keyWords = Arrays.asList("login", "submit", "bejelentkezés", "bejelentkezes",
-				"signin", "sign in", "Login", "Submit", "Bejelentkezés", "Bejelentkezes", "Signin", "Sign in", "belépés", "Belépés");
+		keyWords = Arrays.asList("next", "tovább");
 		
 		multipliers = new HashMap<String, Map<String, AttributeWordAndScoreMultiplier>>();
 		for (String attribute: attributes){

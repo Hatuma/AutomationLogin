@@ -2,6 +2,7 @@ package mscwork.elementsAndScores;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,9 @@ import org.openqa.selenium.WebElement;
 import attributeScore.AttributeWordAndScoreMultiplier;
 
 public class PasswordField extends FieldAndScore{
+	
+	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> multipliers;
+	public static List<String> keyWords;
 	
 	public PasswordField(WebElement field, int score) {
 		super(field, score);
