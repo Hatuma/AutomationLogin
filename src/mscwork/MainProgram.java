@@ -1,6 +1,7 @@
 package mscwork;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -9,6 +10,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.db.DBControl;
+import mscwork.db.FilePathEnum;
 import mscwork.elementsAndScores.NextButtonField;
 import mscwork.elementsAndScores.PasswordField;
 import mscwork.elementsAndScores.SubmitButtonField;
@@ -16,16 +20,40 @@ import mscwork.elementsAndScores.UserNameField;
 
 public class MainProgram {	
 	
-	WebPageObject page;
+	private WebPageObject page;
+	private boolean failed = false;
+	
+	private UserNameField userNameField;
+	private PasswordField passwordField;
+	private NextButtonField nextButtonField;
+	private SubmitButtonField submitButtonField;
+	
 	
 	@After
 	public void closePage(){
-		page.close();
+		if (userNameField!=null)
+			DBControl.modifyJSONWithNewScores(UserNameField.filepath, userNameField.getGotScoreFrom(), failed);
+		if (passwordField!=null)
+			DBControl.modifyJSONWithNewScores(PasswordField.filepath, passwordField.getGotScoreFrom(), failed);
+		if (submitButtonField!=null)
+			DBControl.modifyJSONWithNewScores(SubmitButtonField.filepath, submitButtonField.getGotScoreFrom(), failed);
+		if (nextButtonField!=null)
+			DBControl.modifyJSONWithNewScores(NextButtonField.filepath, nextButtonField.getGotScoreFrom(), failed);
+		if (page != null)
+			page.close();
+	}
 	}
 	
 	
 	private void login(String url, String username, String password, By expectedElementLocator){
 		page = new WebPageObject(url);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		List<PasswordField> passwords = AlgoritamWithoutMachineLearning.getPasswordFields(page);
 		AlgoritamWithoutMachineLearning.sortPasswordList(passwords);
@@ -39,9 +67,14 @@ public class MainProgram {
 		List<NextButtonField> nextButtons = AlgoritamWithoutMachineLearning.getNextButtons(page);
 		AlgoritamWithoutMachineLearning.sortNextButtonList(nextButtons);
 		
-		if(nextButtons.get(0).getScore() > submitButtons.get(0).getScore()){
-			usernames.get(0).getField().sendKeys(username);
-			nextButtons.get(0).getField().click();
+		
+		
+		if(nextButtons.get(0).getScore() >= 20){
+			userNameField = usernames.get(0);
+			userNameField.getField().sendKeys(username);
+			
+			nextButtonField = nextButtons.get(0);
+			nextButtonField.getField().click();
 			
 			try {
 				Thread.sleep(2000);
@@ -54,26 +87,39 @@ public class MainProgram {
 			submitButtons = AlgoritamWithoutMachineLearning.getSubmitButtons(page);
 			AlgoritamWithoutMachineLearning.sortSubmitButtonList(submitButtons);
 			
-			passwords.get(0).getField().sendKeys(password);
-			submitButtons.get(0).getField().click();
+			passwordField = passwords.get(0);
+			passwordField.getField().sendKeys(password);
+			
+			submitButtonField = submitButtons.get(0);
+			submitButtonField.getField().click();
 			
 		} else {
-			usernames.get(0).getField().sendKeys(username);
-			passwords.get(0).getField().sendKeys(password);
-			submitButtons.get(0).getField().click();
+			userNameField = usernames.get(0);
+			userNameField.getField().sendKeys(username);
+			
+			passwordField = passwords.get(0);
+			passwordField.getField().sendKeys(password);
+			
+			submitButtonField = submitButtons.get(0);
+			submitButtonField.getField().click();
 		}
 		try{
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			WebElement expectedElement = page.driver.findElement(expectedElementLocator);
-			Assert.assertTrue("The given element is invisible", expectedElement.isDisplayed());
-			//succed login
+			if (!expectedElement.isDisplayed()){
+				failed = true;
+				Assert.fail("The given element is invisible: " + expectedElement);
+			}
+			
+			//succeed login
 		} catch (NoSuchElementException e){
-			// login faild
+			// login failed
+			failed = true;
 			Assert.fail("No element with the given locator: " + expectedElementLocator);
 		}
 		

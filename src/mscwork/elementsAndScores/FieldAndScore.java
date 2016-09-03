@@ -1,16 +1,21 @@
 package mscwork.elementsAndScores;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.db.DBControl;
+import mscwork.db.FilePathEnum;
+
 public class FieldAndScore {
 	
-	public static List<String> attributes = Arrays.asList("id", "class", "name", "text", "value", "type");	
+	public static List<String> attributes;// = Arrays.asList("id", "class", "name", "text", "value", "type");	
 
 	private WebElement field;
 	private int score;
+	private List<AttributeWordAndScoreMultiplier> gotScoreFrom = new ArrayList<AttributeWordAndScoreMultiplier>();
 	
 	public WebElement getField() {
 		return field;
@@ -24,6 +29,17 @@ public class FieldAndScore {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	public List<AttributeWordAndScoreMultiplier> getGotScoreFrom() {
+		return gotScoreFrom;
+	}
+	public void setGotScoreFrom(List<AttributeWordAndScoreMultiplier> gotScoreFrom) {
+		this.gotScoreFrom = gotScoreFrom;
+	}
+	
+	public void addToGotScoreList(AttributeWordAndScoreMultiplier attributeWordAndScoreMultiplier){
+		this.gotScoreFrom.add(attributeWordAndScoreMultiplier);
+	}
+	
 	public FieldAndScore(WebElement field, int score) {
 		super();
 		this.field = field;
@@ -38,6 +54,10 @@ public class FieldAndScore {
 	}
 	public void incScore(int i) {
 		score += i;
+	}
+	
+	static {
+		attributes = DBControl.getAttributes(FilePathEnum.USERNAME);
 	}
 	
 }

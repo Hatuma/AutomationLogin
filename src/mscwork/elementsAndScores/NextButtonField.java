@@ -1,16 +1,17 @@
 package mscwork.elementsAndScores;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
 
-import attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.db.DBControl;
+import mscwork.db.FilePathEnum;
 
 public class NextButtonField extends FieldAndScore{
 	
+	public static FilePathEnum filepath = FilePathEnum.NEXT;
 	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> multipliers;
 	public static List<String> keyWords;
 
@@ -28,7 +29,9 @@ public class NextButtonField extends FieldAndScore{
 	}
 
 	static{
-		keyWords = Arrays.asList("next", "tovább");
+		keyWords = DBControl.getKeyWords(filepath);
+		multipliers = DBControl.getMultipliers(filepath);
+		/*keyWords = Arrays.asList("next", "tovább");
 		
 		multipliers = new HashMap<String, Map<String, AttributeWordAndScoreMultiplier>>();
 		for (String attribute: attributes){
@@ -45,6 +48,6 @@ public class NextButtonField extends FieldAndScore{
 		
 		for(AttributeWordAndScoreMultiplier multiplier: multipliers.get("text").values()){
 			multiplier.setMultiplier(5);
-		}
+		}*/
 	}
 }

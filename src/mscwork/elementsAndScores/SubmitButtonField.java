@@ -1,15 +1,17 @@
 package mscwork.elementsAndScores;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
 
-import attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.db.DBControl;
+import mscwork.db.FilePathEnum;
 
 public class SubmitButtonField extends FieldAndScore{
+	
+	public static FilePathEnum filepath = FilePathEnum.SUBMIT;
 	
 	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> multipliers;
 	public static List<String> keyWords;
@@ -24,11 +26,13 @@ public class SubmitButtonField extends FieldAndScore{
 	
 	@Override
 	public String toString() {
-		return "SubmitButtonField [field=" + getField() + ", score=" + getScore() + ", location=" + getField().getLocation() + ", text=" + getField().getAttribute("value") + "]";
+		return "SubmitButtonField [field=" + getField() + ", score=" + getScore() + ", location=" + getField().getLocation() + ", value=" + getField().getAttribute("value") + ", text=" + getField().getText() + "]";
 	}
 
 	static{
-		keyWords = Arrays.asList("login", "submit", "bejelentkezés", "bejelentkezes",
+		keyWords = DBControl.getKeyWords(filepath);
+		multipliers = DBControl.getMultipliers(filepath);
+		/*keyWords = Arrays.asList("login", "submit", "bejelentkezés", "bejelentkezes",
 				"signin", "sign in", "Login", "Submit", "Bejelentkezés", "Bejelentkezes", "Signin", "Sign in", "belépés", "Belépés");
 		
 		multipliers = new HashMap<String, Map<String, AttributeWordAndScoreMultiplier>>();
@@ -46,6 +50,6 @@ public class SubmitButtonField extends FieldAndScore{
 		
 		for(AttributeWordAndScoreMultiplier multiplier: multipliers.get("text").values()){
 			multiplier.setMultiplier(5);
-		}
+		}*/
 	}
 }

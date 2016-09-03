@@ -1,15 +1,17 @@
 package mscwork.elementsAndScores;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
 
-import attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
+import mscwork.db.DBControl;
+import mscwork.db.FilePathEnum;
 
 public class PasswordField extends FieldAndScore{
+	
+	public static FilePathEnum filepath = FilePathEnum.PASSWORD;
 	
 	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> multipliers;
 	public static List<String> keyWords;
@@ -29,7 +31,9 @@ public class PasswordField extends FieldAndScore{
 	
 	
 	static {
-		keyWords = Arrays.asList("pass", "password", "Password");
+		keyWords = DBControl.getKeyWords(filepath);
+		multipliers = DBControl.getMultipliers(filepath);
+		/*keyWords = Arrays.asList("pass", "password", "Password");
 		
 		multipliers = new HashMap<String, Map<String, AttributeWordAndScoreMultiplier>>();
 		for (String attribute: attributes){
@@ -39,7 +43,7 @@ public class PasswordField extends FieldAndScore{
 				multipliers.get(attribute).put(word, attributeWordAndScoreMultiplier);
 			}
 		}
-		
+		*/
 		//attribute.setAttribue();
 	}
 

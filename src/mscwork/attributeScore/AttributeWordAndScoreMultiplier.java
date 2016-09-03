@@ -1,4 +1,4 @@
-package attributeScore;
+package mscwork.attributeScore;
 
 public class AttributeWordAndScoreMultiplier {
 

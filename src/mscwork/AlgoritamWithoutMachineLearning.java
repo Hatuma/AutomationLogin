@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.elementsAndScores.FieldAndScore;
 import mscwork.elementsAndScores.FieldAndScoreComparator;
 import mscwork.elementsAndScores.NextButtonField;
@@ -24,7 +25,6 @@ public class AlgoritamWithoutMachineLearning {
 			for (String attribute : FieldAndScore.attributes) {
 				for (String word : PasswordField.keyWords) {
 					giveScore(passField, attribute, word, PasswordField.multipliers.get(attribute).get(word).getMultiplier());
-					;
 				}
 			}
 		}
@@ -72,12 +72,6 @@ public class AlgoritamWithoutMachineLearning {
 					giveScore(submitButtonField, attribute, word, SubmitButtonField.multipliers.get(attribute).get(word).getMultiplier());
 				}
 			}
-			if (submitButtonField.getField().getTagName().equals("button"))
-				submitButtonField.incScore();
-			for (String word : SubmitButtonField.keyWords) {
-				if(submitButtonField.getField().getText().toLowerCase().contains(word))
-					submitButtonField.incScore(20);
-			}
 		}
 
 		return list;
@@ -94,21 +88,24 @@ public class AlgoritamWithoutMachineLearning {
 					giveScore(nextButtonField, attribute, word, NextButtonField.multipliers.get(attribute).get(word).getMultiplier());
 				}
 			}
-			if (nextButtonField.getField().getTagName().equals("button"))
-				nextButtonField.incScore();
-			for (String word : NextButtonField.keyWords) {
-				if(nextButtonField.getField().getText().toLowerCase().contains(word))
-					nextButtonField.incScore(20);
-			}
 		}
 
 		return list;
 	}
 
 	private static void giveScore(FieldAndScore element, String attribute, String name, int multipier) {
-		if (element.getField().getAttribute(attribute) != null
-				&& element.getField().getAttribute(attribute).toLowerCase().contains(name))
-			element.incScore(multipier);
+		if (attribute.equals("text")){
+			if (element.getField().getText().toLowerCase().contains(name)) {
+				element.incScore(multipier);
+				element.addToGotScoreList(new AttributeWordAndScoreMultiplier(attribute, name, multipier));
+			}
+		} else {
+			if (element.getField().getAttribute(attribute) != null
+					&& element.getField().getAttribute(attribute).toLowerCase().contains(name)){
+				element.incScore(multipier);
+				element.addToGotScoreList(new AttributeWordAndScoreMultiplier(attribute, name, multipier));
+			}
+		}
 	}
 
 	private static void giveScoreFromDistance(WebPageObject page, FieldAndScore fieldAndScore, String word) {
@@ -127,7 +124,7 @@ public class AlgoritamWithoutMachineLearning {
 					Math.sqrt(Math.pow(elementLeftX - labelRightX, 2) + Math.pow(elementTopY - labelTopY, 2)),
 					Math.sqrt(Math.pow(elementLeftX - labelLeftX, 2) + Math.pow(elementTopY - labelBotY, 2)));
 
-			fieldAndScore.incScore((int) (100 / (distance + 1)));
+			fieldAndScore.incScore((int) (1000 / (distance + 1)));
 		}
 	}
 
