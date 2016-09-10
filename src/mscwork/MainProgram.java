@@ -1,18 +1,13 @@
 package mscwork;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 
-import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.db.DBControl;
-import mscwork.db.FilePathEnum;
 import mscwork.elementsAndScores.NextButtonField;
 import mscwork.elementsAndScores.PasswordField;
 import mscwork.elementsAndScores.SubmitButtonField;
@@ -20,7 +15,7 @@ import mscwork.elementsAndScores.UserNameField;
 
 public class MainProgram {	
 	
-	private WebPageObject page;
+	private WebPage page;
 	private boolean failed = false;
 	
 	private UserNameField userNameField;
@@ -45,15 +40,13 @@ public class MainProgram {
 	}
 	
 	
-	private void login(String url, String username, String password, By expectedElementLocator){
-		page = new WebPageObject(url);
+	private void login(WebPage page, String username, String password){
+		this.page = page;
 		
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		page.init();
+		page.waitForPageToLoad();
+		page.prepareForLogin();
+		page.waitForPageToLoad();
 		
 		List<PasswordField> passwords = AlgoritamWithoutMachineLearning.getPasswordFields(page);
 		AlgoritamWithoutMachineLearning.sortPasswordList(passwords);
@@ -76,12 +69,8 @@ public class MainProgram {
 			nextButtonField = nextButtons.get(0);
 			nextButtonField.getField().click();
 			
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			page.waitForPageToLoad();
+			
 			passwords = AlgoritamWithoutMachineLearning.getPasswordFields(page);
 			AlgoritamWithoutMachineLearning.sortPasswordList(passwords);
 			submitButtons = AlgoritamWithoutMachineLearning.getSubmitButtons(page);
@@ -103,25 +92,10 @@ public class MainProgram {
 			submitButtonField = submitButtons.get(0);
 			submitButtonField.getField().click();
 		}
-		try{
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			WebElement expectedElement = page.driver.findElement(expectedElementLocator);
-			if (!expectedElement.isDisplayed()){
-				failed = true;
-				Assert.fail("The given element is invisible: " + expectedElement);
-			}
-			
-			//succeed login
-		} catch (NoSuchElementException e){
-			// login failed
+		page.waitForPageToLoad();
+		if (!page.isLoginSuccessed()){
 			failed = true;
-			Assert.fail("No element with the given locator: " + expectedElementLocator);
+			Assert.fail("The login failed");
 		}
-		
 	}
 }

@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class WebPageObject {
+public class WebPageObject implements WebPage{
 
-	public WebDriver driver;
+	protected WebDriver driver;
+	protected String url;
+	protected By locator;
 	
-	public WebPageObject(String url){
-		driver = new FirefoxDriver();
-		driver.get(url);
+	public WebPageObject(String url, By locator){
+		this.url = url;
+		this.locator = locator;
 	}
 	
 	public List<WebElement> getAllInputFieldNotButton(){
@@ -75,6 +78,32 @@ public class WebPageObject {
 	
 	public void close(){
 		driver.close();
+	}
+
+	public void init() {
+		driver = new FirefoxDriver();
+		driver.get(url);		
+	}
+
+	public void prepareForLogin() {
+		
+	}
+
+	public void waitForPageToLoad() {
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isLoginSuccessed() {
+		try{
+			return driver.findElement(locator).isDisplayed(); 
+		} catch (NoSuchElementException e){
+			return false;
+		}
 	}
 	
 }

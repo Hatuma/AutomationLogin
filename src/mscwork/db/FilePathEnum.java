@@ -2,10 +2,10 @@ package mscwork.db;
 
 public enum FilePathEnum {
 
-	NEXT("src/db/DBnext.json"),
-	SUBMIT("src/db/DBsubmit.json"),
-	PASSWORD("src/db/DBpassword.json"),
-	USERNAME("src/db/DBusername.json"),
+	NEXT("src/mscwork/db/DBnext.json"),
+	SUBMIT("src/mscwork/db/DBsubmit.json"),
+	PASSWORD("src/mscwork/db/DBpassword.json"),
+	USERNAME("src/mscwork/db/DBusername.json"),
 	;
 	
 	

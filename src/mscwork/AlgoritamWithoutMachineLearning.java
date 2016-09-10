@@ -16,7 +16,7 @@ import mscwork.elementsAndScores.UserNameField;
 
 public class AlgoritamWithoutMachineLearning {	
 
-	public static List<PasswordField> getPasswordFields(WebPageObject page) {
+	public static List<PasswordField> getPasswordFields(WebPage page) {
 		List<PasswordField> list = new ArrayList<PasswordField>();
 		for (WebElement field : page.getAllInputFieldNotButton()) {
 			list.add(new PasswordField(field, 0));
@@ -38,7 +38,7 @@ public class AlgoritamWithoutMachineLearning {
 		return list;
 	}
 
-	public static List<UserNameField> getUsernameFields(WebPageObject page) {
+	public static List<UserNameField> getUsernameFields(WebPage page) {
 		List<UserNameField> list = new ArrayList<UserNameField>();
 		for (WebElement field : page.getAllInputFieldNotButton()) {
 			list.add(new UserNameField(field, 0));
@@ -61,7 +61,7 @@ public class AlgoritamWithoutMachineLearning {
 		return list;
 	}
 
-	public static List<SubmitButtonField> getSubmitButtons(WebPageObject page) {
+	public static List<SubmitButtonField> getSubmitButtons(WebPage page) {
 		List<SubmitButtonField> list = new ArrayList<SubmitButtonField>();
 		for (WebElement field : page.getAllButtons()) {
 			list.add(new SubmitButtonField(field, 0));
@@ -77,7 +77,7 @@ public class AlgoritamWithoutMachineLearning {
 		return list;
 	}
 	
-	public static List<NextButtonField> getNextButtons(WebPageObject page) {
+	public static List<NextButtonField> getNextButtons(WebPage page) {
 		List<NextButtonField> list = new ArrayList<NextButtonField>();
 		for (WebElement field : page.getAllButtons()) {
 			list.add(new NextButtonField(field, 0));
@@ -108,7 +108,7 @@ public class AlgoritamWithoutMachineLearning {
 		}
 	}
 
-	private static void giveScoreFromDistance(WebPageObject page, FieldAndScore fieldAndScore, String word) {
+	private static void giveScoreFromDistance(WebPage page, FieldAndScore fieldAndScore, String word) {
 		for (WebElement label : page.getAllElementWithText(word)) {
 			// top left with top right
 			int labelRightX = label.getLocation().getX() + label.getSize().getWidth();

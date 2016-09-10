@@ -14,8 +14,8 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 
-import junit.framework.Assert;
 import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 
 public class DBControl {
