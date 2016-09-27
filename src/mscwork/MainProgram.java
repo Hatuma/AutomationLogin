@@ -37,6 +37,34 @@ public class MainProgram {
 		if (page != null)
 			page.close();
 	}
+	@Test
+	public void wiki(){
+		String url = "https://en.wikipedia.org/w/index.php?title=Special:UserLogin&returnto=Main+Page";
+		String locatorString = "//div/p[contains(text(),'Incorrect password entered.')]";
+		String username = "username";
+		String password = "password";
+		WebPage page = new WebPageObject(url, By.xpath(locatorString));
+		login(page, username, password);
+	}
+	
+	@Test
+	public void salesForce(){
+		String url = "https://login.salesforce.com/";
+		String locatorString = "//div[contains(text(),'Please check your username and password.')]";
+		String username = "username";
+		String password = "password";
+		WebPage page = new WebPageObject(url, By.xpath(locatorString));
+		login(page, username, password);
+	}
+	
+	@Test
+	public void marketo(){
+		String url = "https://login.marketo.com/";
+		String locatorString = "//div[contains(text(),'Incorrect email or password. Try again.')]";
+		String username = "username";
+		String password = "password";
+		WebPage page = new WebPageObject(url, By.xpath(locatorString));
+		login(page, username, password);
 	}
 	
 	
