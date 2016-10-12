@@ -1,5 +1,6 @@
 package mscwork;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
@@ -7,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.db.DBControl;
 import mscwork.elementsAndScores.NextButtonField;
 import mscwork.elementsAndScores.PasswordField;
@@ -16,7 +18,7 @@ import mscwork.elementsAndScores.UserNameField;
 public class MainProgram {	
 	
 	private WebPage page;
-	private boolean failed = false;
+	private boolean failed = true;
 	
 	private UserNameField userNameField;
 	private PasswordField passwordField;
@@ -25,15 +27,27 @@ public class MainProgram {
 	
 	
 	@After
-	public void closePage(){
-		if (userNameField!=null)
-			DBControl.modifyJSONWithNewScores(UserNameField.filepath, userNameField.getGotScoreFrom(), failed);
-		if (passwordField!=null)
-			DBControl.modifyJSONWithNewScores(PasswordField.filepath, passwordField.getGotScoreFrom(), failed);
-		if (submitButtonField!=null)
-			DBControl.modifyJSONWithNewScores(SubmitButtonField.filepath, submitButtonField.getGotScoreFrom(), failed);
-		if (nextButtonField!=null)
-			DBControl.modifyJSONWithNewScores(NextButtonField.filepath, nextButtonField.getGotScoreFrom(), failed);
+	public void after(){
+		if (userNameField!=null){
+			List<AttributeWordAndScoreMultiplier> list = userNameField.getGotScoreFrom();
+			modifyScrore(list, failed);
+			DBControl.modifyJSONWithNewScores(UserNameField.filepath, list);
+		}
+		if (passwordField!=null){
+			List<AttributeWordAndScoreMultiplier> list = passwordField.getGotScoreFrom();
+			modifyScrore(list, failed);
+			DBControl.modifyJSONWithNewScores(PasswordField.filepath, list);
+		}
+		if (submitButtonField!=null){
+			List<AttributeWordAndScoreMultiplier> list = submitButtonField.getGotScoreFrom();
+			modifyScrore(list, failed);
+			DBControl.modifyJSONWithNewScores(SubmitButtonField.filepath, list);
+		}
+		if (nextButtonField!=null){
+			List<AttributeWordAndScoreMultiplier> list = nextButtonField.getGotScoreFrom();
+			modifyScrore(list, failed);
+			DBControl.modifyJSONWithNewScores(NextButtonField.filepath, list);
+		}
 		if (page != null)
 			page.close();
 	}
@@ -76,17 +90,17 @@ public class MainProgram {
 		page.prepareForLogin();
 		page.waitForPageToLoad();
 		
-		List<PasswordField> passwords = AlgoritamWithoutMachineLearning.getPasswordFields(page);
-		AlgoritamWithoutMachineLearning.sortPasswordList(passwords);
+		List<PasswordField> passwords = AlgorithmWithoutMachineLearning.getPasswordFields(page);
+		Collections.sort(passwords);
 		
-		List<UserNameField> usernames = AlgoritamWithoutMachineLearning.getUsernameFields(page);
-		AlgoritamWithoutMachineLearning.sortUserNameList(usernames);
+		List<UserNameField> usernames = AlgorithmWithoutMachineLearning.getUsernameFields(page);
+		Collections.sort(usernames);
 		
-		List<SubmitButtonField> submitButtons = AlgoritamWithoutMachineLearning.getSubmitButtons(page);
-		AlgoritamWithoutMachineLearning.sortSubmitButtonList(submitButtons);
+		List<SubmitButtonField> submitButtons = AlgorithmWithoutMachineLearning.getSubmitButtons(page);
+		Collections.sort(submitButtons);
 		
-		List<NextButtonField> nextButtons = AlgoritamWithoutMachineLearning.getNextButtons(page);
-		AlgoritamWithoutMachineLearning.sortNextButtonList(nextButtons);
+		List<NextButtonField> nextButtons = AlgorithmWithoutMachineLearning.getNextButtons(page);
+		Collections.sort(nextButtons);
 		
 		
 		
@@ -99,10 +113,10 @@ public class MainProgram {
 			
 			page.waitForPageToLoad();
 			
-			passwords = AlgoritamWithoutMachineLearning.getPasswordFields(page);
-			AlgoritamWithoutMachineLearning.sortPasswordList(passwords);
-			submitButtons = AlgoritamWithoutMachineLearning.getSubmitButtons(page);
-			AlgoritamWithoutMachineLearning.sortSubmitButtonList(submitButtons);
+			passwords = AlgorithmWithoutMachineLearning.getPasswordFields(page);
+			Collections.sort(passwords);
+			submitButtons = AlgorithmWithoutMachineLearning.getSubmitButtons(page);
+			Collections.sort(submitButtons);
 			
 			passwordField = passwords.get(0);
 			passwordField.getField().sendKeys(password);
@@ -121,7 +135,9 @@ public class MainProgram {
 			submitButtonField.getField().click();
 		}
 		page.waitForPageToLoad();
-		if (!page.isLoginSuccessed()){
+		if (page.isLoginSuccessed()){
+			failed = false;
+		} else {
 			failed = true;
 			Assert.fail("The login failed");
 		}

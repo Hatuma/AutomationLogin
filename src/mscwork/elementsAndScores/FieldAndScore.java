@@ -9,7 +9,7 @@ import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.db.DBControl;
 import mscwork.db.FilePathEnum;
 
-public class FieldAndScore {
+public class FieldAndScore implements Comparable<FieldAndScore>{
 	
 	public static List<String> attributes;// = Arrays.asList("id", "class", "name", "text", "value", "type");	
 
@@ -49,15 +49,16 @@ public class FieldAndScore {
 		super();
 	}
 	
-	public void incScore(){
-		score++;
-	}
 	public void incScore(int i) {
 		score += i;
 	}
 	
 	static {
 		attributes = DBControl.getAttributes(FilePathEnum.USERNAME);
+	}
+
+	public int compareTo(FieldAndScore o) {
+		return score - o.getScore();
 	}
 	
 }

@@ -8,8 +8,6 @@ public enum FilePathEnum {
 	USERNAME("src/mscwork/db/DBusername.json"),
 	;
 	
-	
-	
 	private FilePathEnum(String filepath) {
 		this.filepath = filepath;
 	}

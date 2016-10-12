@@ -1,1 +1,76 @@
-{"keywords":["next","tovább"],"attributes":["id","class","name","text","value","type"],"multipliers":[{"values":[{"multiplier":84,"keyword":"next"},{"multiplier":20,"keyword":"tovább"}],"attribute":"id"},{"values":[{"multiplier":20,"keyword":"next"},{"multiplier":20,"keyword":"tovább"}],"attribute":"class"},{"values":[{"multiplier":20,"keyword":"next"},{"multiplier":20,"keyword":"tovább"}],"attribute":"name"},{"values":[{"multiplier":20,"keyword":"next"},{"multiplier":84,"keyword":"tovább"}],"attribute":"value"},{"values":[{"multiplier":91,"keyword":"next"},{"multiplier":20,"keyword":"tovább"}],"attribute":"text"},{"values":[{"multiplier":20,"keyword":"next"},{"multiplier":20,"keyword":"tovább"}],"attribute":"type"}]}
+{
+	"keywords": ["next",
+	"tovább"],
+	"attributes": ["id",
+	"class",
+	"name",
+	"text",
+	"value",
+	"type"],
+	"multipliers": [{
+		"values": [{
+			"multiplier": 84,
+			"keyword": "next"
+		},
+		{
+			"multiplier": 20,
+			"keyword": "tovább"
+		}],
+		"attribute": "id"
+	},
+	{
+		"values": [{
+			"multiplier": 20,
+			"keyword": "next"
+		},
+		{
+			"multiplier": 20,
+			"keyword": "tovább"
+		}],
+		"attribute": "class"
+	},
+	{
+		"values": [{
+			"multiplier": 20,
+			"keyword": "next"
+		},
+		{
+			"multiplier": 20,
+			"keyword": "tovább"
+		}],
+		"attribute": "name"
+	},
+	{
+		"values": [{
+			"multiplier": 20,
+			"keyword": "next"
+		},
+		{
+			"multiplier": 84,
+			"keyword": "tovább"
+		}],
+		"attribute": "value"
+	},
+	{
+		"values": [{
+			"multiplier": 91,
+			"keyword": "next"
+		},
+		{
+			"multiplier": 20,
+			"keyword": "tovább"
+		}],
+		"attribute": "text"
+	},
+	{
+		"values": [{
+			"multiplier": 20,
+			"keyword": "next"
+		},
+		{
+			"multiplier": 20,
+			"keyword": "tovább"
+		}],
+		"attribute": "type"
+	}]
+}

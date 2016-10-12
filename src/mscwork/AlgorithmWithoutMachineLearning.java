@@ -1,20 +1,18 @@
 package mscwork;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
 import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.elementsAndScores.FieldAndScore;
-import mscwork.elementsAndScores.FieldAndScoreComparator;
 import mscwork.elementsAndScores.NextButtonField;
 import mscwork.elementsAndScores.PasswordField;
 import mscwork.elementsAndScores.SubmitButtonField;
 import mscwork.elementsAndScores.UserNameField;
 
-public class AlgoritamWithoutMachineLearning {	
+public class AlgorithmWithoutMachineLearning {	
 
 	public static List<PasswordField> getPasswordFields(WebPage page) {
 		List<PasswordField> list = new ArrayList<PasswordField>();
@@ -128,19 +126,4 @@ public class AlgoritamWithoutMachineLearning {
 		}
 	}
 
-	public static void sortPasswordList(List<PasswordField> list) {
-		Collections.sort(list, new FieldAndScoreComparator());
-	}
-
-	public static void sortUserNameList(List<UserNameField> list) {
-		Collections.sort(list, new FieldAndScoreComparator());
-	}
-
-	public static void sortSubmitButtonList(List<SubmitButtonField> list) {
-		Collections.sort(list, new FieldAndScoreComparator());
-	}
-	
-	public static void sortNextButtonList(List<NextButtonField> list) {
-		Collections.sort(list, new FieldAndScoreComparator());
-	}
 }

@@ -55,14 +55,19 @@ public class DBControl {
 		File fold=new File(filePathEnum.getFilepath());
 		fold.delete();
 		File fnew=new File(filePathEnum.getFilepath());
-
+		FileWriter f2 = null;
 		try {
-		    FileWriter f2 = new FileWriter(fnew, false);
+			f2 = new FileWriter(fnew, false);
 		    f2.write(json.toString());
-		    f2.close();
 		} catch (IOException e) {
 		    e.printStackTrace();
-		} 
+		} finally {
+			try {
+				f2.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static List<String> getAttributes(FilePathEnum filePathEnum) {
@@ -99,7 +104,7 @@ public class DBControl {
 		return null;
 	}
 	
-	public static JSONObject modifyJSONWithNewScores(FilePathEnum filePathEnum, List<AttributeWordAndScoreMultiplier> list, boolean failed) {
+	public static void modifyJSONWithNewScores(FilePathEnum filePathEnum, List<AttributeWordAndScoreMultiplier> list) {
 		String jsonString = getJSON(filePathEnum);
 		try {
 			JSONObject json = new JSONObject(jsonString);	
@@ -109,7 +114,7 @@ public class DBControl {
 				for (int i = 0; i < array.length(); i++) {
 					multipliersForAttribute = array.getJSONObject(i);
 					String attribute = multipliersForAttribute.getString("attribute");
-					if (attribute.equals(attributeWordAndScoreMultiplier.getAttribue()))
+					if (attribute.equals(attributeWordAndScoreMultiplier.getAttribute()))
 						break;
 				}
 				JSONArray values = multipliersForAttribute.getJSONArray("values");
@@ -118,15 +123,7 @@ public class DBControl {
 					String keyword = wordAndMultilier.getString("keyword");
 					if (keyword.equals(attributeWordAndScoreMultiplier.getWord())){
 						wordAndMultilier.remove("multiplier");
-						//we found the place where we need to modify multiplier
-						int oldMultiplier = attributeWordAndScoreMultiplier.getMultiplier();
-						int modifiedOldMultiplier = (oldMultiplier*8)/10;
-						
-						if (failed){
-							wordAndMultilier.put("multiplier", modifiedOldMultiplier);
-						} else {
-							wordAndMultilier.put("multiplier", 20 + modifiedOldMultiplier);
-						}
+						wordAndMultilier.put("multiplier", attributeWordAndScoreMultiplier.getMultiplier());
 						break;
 					}
 				}
@@ -136,7 +133,6 @@ public class DBControl {
 			e.printStackTrace();
 			Assert.fail("The json was not correct");
 		}
-		return null;
 	}
 	
 	public static Map<String, Map<String, AttributeWordAndScoreMultiplier>> getMultipliers(FilePathEnum filePathEnum) {
