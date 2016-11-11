@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WebPageObject implements WebPage{
@@ -81,7 +83,10 @@ public class WebPageObject implements WebPage{
 	}
 
 	public void init() {
-		driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver", "I:\\ChromeDriver\\chromedriver.exe");
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--start-maximized");
+		driver = new ChromeDriver(options);
 		driver.get(url);		
 	}
 

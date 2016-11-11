@@ -117,6 +117,18 @@ public class DBControl {
 					if (attribute.equals(attributeWordAndScoreMultiplier.getAttribute()))
 						break;
 				}
+				if (!attributeWordAndScoreMultiplier.getAttribute().equals(multipliersForAttribute.getString("attribute"))){
+					//we didn't had this attribute yet, we need to create the values
+					JSONObject wordAndMultilier = new JSONObject();
+					wordAndMultilier.put("keyword", attributeWordAndScoreMultiplier.getWord());
+					wordAndMultilier.put("multiplier", attributeWordAndScoreMultiplier.getMultiplier());
+					JSONArray values = new JSONArray();
+					values.put(wordAndMultilier);
+					multipliersForAttribute = new JSONObject();
+					multipliersForAttribute.put("values", values);
+					multipliersForAttribute.put("attribute", attributeWordAndScoreMultiplier.getAttribute());
+				}
+					
 				JSONArray values = multipliersForAttribute.getJSONArray("values");
 				for (int i = 0; i < values.length(); i++){
 					JSONObject wordAndMultilier = values.getJSONObject(i);
@@ -125,6 +137,13 @@ public class DBControl {
 						wordAndMultilier.remove("multiplier");
 						wordAndMultilier.put("multiplier", attributeWordAndScoreMultiplier.getMultiplier());
 						break;
+					}
+					if (i == values.length() - 1){ 
+						//we reached the last keyword and we not found the give keyword
+						wordAndMultilier = new JSONObject();
+						wordAndMultilier.put("keyword", attributeWordAndScoreMultiplier.getWord());
+						wordAndMultilier.put("multiplier", attributeWordAndScoreMultiplier.getMultiplier());
+						values.put(wordAndMultilier);						
 					}
 				}
 			}

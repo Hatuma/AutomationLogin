@@ -58,7 +58,7 @@ public class FieldAndScore implements Comparable<FieldAndScore>{
 	}
 
 	public int compareTo(FieldAndScore o) {
-		return score - o.getScore();
+		return o.getScore() - score;
 	}
 	
 }

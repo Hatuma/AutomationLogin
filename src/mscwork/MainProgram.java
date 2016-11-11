@@ -104,7 +104,7 @@ public class MainProgram {
 		
 		
 		
-		if(nextButtons.get(0).getScore() >= 20){
+		if(nextButtons.size()>0 && nextButtons.get(0).getScore() >= 20){
 			userNameField = usernames.get(0);
 			userNameField.getField().sendKeys(username);
 			
