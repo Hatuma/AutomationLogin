@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.db.DBControl;
@@ -51,6 +52,18 @@ public class MainProgram {
 		if (page != null)
 			page.close();
 	}
+	
+	private void modifyScrore(List<AttributeWordAndScoreMultiplier> list, boolean failed){
+		for(AttributeWordAndScoreMultiplier attributeWordAndScoreMultiplier: list){
+			int score = attributeWordAndScoreMultiplier.getMultiplier();
+			score = (int)(score * 4./5);
+			if (!failed){
+				score +=20;
+			}
+			attributeWordAndScoreMultiplier.setMultiplier(score);
+		}
+	}
+	
 	@Test
 	public void wiki(){
 		String url = "https://en.wikipedia.org/w/index.php?title=Special:UserLogin&returnto=Main+Page";

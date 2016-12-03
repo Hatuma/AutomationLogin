@@ -3,7 +3,11 @@ package mscwork;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 import mscwork.elementsAndScores.FieldAndScore;
@@ -65,8 +69,19 @@ public class AlgorithmWithoutMachineLearning {
 			list.add(new SubmitButtonField(field, 0));
 		}
 		for (SubmitButtonField submitButtonField : list) {
+			WebElement field = submitButtonField.getField(); 
+			try {
+				field.isDisplayed();
+				//WebDriverWait wait = new WebDriverWait(page.getDriver(), 5);
+				//wait.until(ExpectedConditions.elementToBeClickable(field));
+			} catch (StaleElementReferenceException|TimeoutException e){
+				//
+				//e.printStackTrace();
+				continue;
+			}
 			for (String attribute : FieldAndScore.attributes) {
 				for (String word : SubmitButtonField.keyWords) {
+					//System.out.println("field location: " + field.getLocation() + " attribute: " + attribute + " keyword: " + word);
 					giveScore(submitButtonField, attribute, word, SubmitButtonField.multipliers.get(attribute).get(word).getMultiplier());
 				}
 			}

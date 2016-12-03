@@ -1,15 +1,18 @@
 package mscwork;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class WebPageObject implements WebPage{
 
@@ -53,12 +56,19 @@ public class WebPageObject implements WebPage{
 		list.addAll(getAllInputField());
 		list.addAll(driver.findElements(By.xpath("//button")));
 		list.addAll(driver.findElements(By.xpath("//*[@type='submit']")));
+		list.addAll(driver.findElements(By.xpath("//*[@href]")));
+		list.addAll(driver.findElements(By.xpath("//*[@onclick]")));
+		list.addAll(driver.findElements(By.xpath("//img")));
 		
 		List <WebElement> list2 = new ArrayList<WebElement>();
 		
 		for (WebElement element: list){
+			try{
 			if (element.isDisplayed())
 				list2.add(element);
+			} catch (StaleElementReferenceException e){
+				//do not add
+			}
 		}
 		
 		return list2;
@@ -79,14 +89,21 @@ public class WebPageObject implements WebPage{
 	}
 	
 	public void close(){
-		driver.close();
+		driver.quit();
 	}
 
 	public void init() {
-		System.setProperty("webdriver.chrome.driver", "I:\\ChromeDriver\\chromedriver.exe");
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--start-maximized");
-		driver = new ChromeDriver(options);
+		//System.setProperty("webdriver.chrome.driver", "I:\\ChromeDriver\\chromedriver.exe");
+		//driver = new ChromeDriver();
+		DesiredCapabilities capability = DesiredCapabilities.chrome();
+        try {
+			driver = new RemoteWebDriver(new URL("http://localhost:4756/wd/hub"),  
+			capability);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        driver.manage().window().maximize();
 		driver.get(url);		
 	}
 
@@ -109,6 +126,10 @@ public class WebPageObject implements WebPage{
 		} catch (NoSuchElementException e){
 			return false;
 		}
+	}
+
+	public WebDriver getDriver() {
+		return driver;
 	}
 	
 }

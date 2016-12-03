@@ -2,6 +2,7 @@ package mscwork;
 
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public interface WebPage {
@@ -15,4 +16,5 @@ public interface WebPage {
 	public void prepareForLogin();
 	public void waitForPageToLoad();
 	public boolean isLoginSuccessed();
+	public WebDriver getDriver();
 }
