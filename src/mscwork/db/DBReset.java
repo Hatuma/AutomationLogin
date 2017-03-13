@@ -3,6 +3,8 @@ package mscwork.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomUtils;
+
 import mscwork.attributeScore.AttributeWordAndScoreMultiplier;
 
 public class DBReset {
@@ -14,12 +16,10 @@ public class DBReset {
 			List<String> keywords = DBControl.getKeyWords(filePathEnum);
 			for (String attribute: attributes){
 				for (String keyword: keywords){
-					AttributeWordAndScoreMultiplier attributeWordAndScoreMultiplier = new AttributeWordAndScoreMultiplier(attribute, keyword, 20);
-					if (attribute.equals("text")||attribute.equals("value")){
+					AttributeWordAndScoreMultiplier attributeWordAndScoreMultiplier = new AttributeWordAndScoreMultiplier(attribute, keyword, 50/*RandomUtils.nextInt(1, 101)*/);
+					/*if (attribute.equals("text")||attribute.equals("value")){
 						attributeWordAndScoreMultiplier.setMultiplier(50);
-					}
-					if (keyword.equals("log in"))
-						System.out.println(attributeWordAndScoreMultiplier);
+					}*/
 					list.add(attributeWordAndScoreMultiplier);
 				}
 			}

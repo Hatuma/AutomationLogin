@@ -55,10 +55,11 @@ public class WebPageObject implements WebPage{
 		List <WebElement> list = new ArrayList<WebElement>();
 		list.addAll(getAllInputField());
 		list.addAll(driver.findElements(By.xpath("//button")));
-		list.addAll(driver.findElements(By.xpath("//*[@type='submit']")));
-		list.addAll(driver.findElements(By.xpath("//*[@href]")));
+		list.addAll(driver.findElements(By.xpath("//*[contains(@type, 'submit')]")));
+		list.addAll(driver.findElements(By.xpath("//*[contains(@class, 'submit')]")));
+		/*list.addAll(driver.findElements(By.xpath("//*[@href]")));
 		list.addAll(driver.findElements(By.xpath("//*[@onclick]")));
-		list.addAll(driver.findElements(By.xpath("//img")));
+		list.addAll(driver.findElements(By.xpath("//img")));*/
 		
 		List <WebElement> list2 = new ArrayList<WebElement>();
 		
@@ -93,16 +94,16 @@ public class WebPageObject implements WebPage{
 	}
 
 	public void init() {
-		//System.setProperty("webdriver.chrome.driver", "I:\\ChromeDriver\\chromedriver.exe");
-		//driver = new ChromeDriver();
-		DesiredCapabilities capability = DesiredCapabilities.chrome();
+		System.setProperty("webdriver.chrome.driver", "I:\\ChromeDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
+		/*DesiredCapabilities capability = DesiredCapabilities.chrome();
         try {
 			driver = new RemoteWebDriver(new URL("http://localhost:4756/wd/hub"),  
 			capability);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
         driver.manage().window().maximize();
 		driver.get(url);		
 	}

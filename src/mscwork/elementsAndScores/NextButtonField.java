@@ -1,5 +1,6 @@
 package mscwork.elementsAndScores;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,16 @@ public class NextButtonField extends FieldAndScore{
 	@Override
 	public String toString() {
 		return "NextButtonField [field=" + getField() + ", score=" + getScore() + ", location=" + getField().getLocation() + ", value=" + getField().getAttribute("value") + ", text=" + getField().getText() + "]";
+	}
+	
+	public static List<AttributeWordAndScoreMultiplier> getMultiplierList(){
+		List<AttributeWordAndScoreMultiplier> list = new ArrayList<AttributeWordAndScoreMultiplier>();
+		for(Map<String, AttributeWordAndScoreMultiplier> subMap: multipliers.values()){
+			for(AttributeWordAndScoreMultiplier attributeWordAndScoreMultiplier: subMap.values()){
+				list.add(attributeWordAndScoreMultiplier);
+			}
+		}
+		return list;
 	}
 
 	static{

@@ -1,5 +1,6 @@
 package mscwork.elementsAndScores;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,16 @@ public class PasswordField extends FieldAndScore{
 	
 	public PasswordField() {
 		super();
+	}
+	
+	public static List<AttributeWordAndScoreMultiplier> getMultiplierList(){
+		List<AttributeWordAndScoreMultiplier> list = new ArrayList<AttributeWordAndScoreMultiplier>();
+		for(Map<String, AttributeWordAndScoreMultiplier> subMap: multipliers.values()){
+			for(AttributeWordAndScoreMultiplier attributeWordAndScoreMultiplier: subMap.values()){
+				list.add(attributeWordAndScoreMultiplier);
+			}
+		}
+		return list;
 	}
 	
 	@Override
